@@ -2,36 +2,43 @@
 #include <thread>
 #include <chrono>
 
-void client_work(int& total_count)
+void client_worker(int& count, int count_max)
 {
-	total_count++;
+	while (true)
+	{
+		if (count < count_max)
+		{
+			std::cout << ++count << " ";
+			std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+		}
+	}
 }
 
-void operator_work()
+void operator_worker(int& count)
 {
-
+	while (count > 0)
+	{
+		std::cout << --count << " ";
+		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+	}
 }
-
 
 int main(int argc, char** argv)
 {
-	setlocale(LC_ALL, "ru");
 	unsigned int cores_quantity = std::thread::hardware_concurrency();
-	std::cout << "Количество аппаратных ядер - " << cores_quantity << std::endl;
-	int clients_max_quantity = 1;
+	std::cout << "Quantity of processor cores - " << cores_quantity << std::endl;
+	int count_max = 10;
 	int count = 0;
-	std::thread t1(client_work, std::ref(count));
+	std::thread t1(client_worker, std::ref(count), count_max);
+	std::thread t2(operator_worker, std::ref(count));
 	if (t1.joinable())
 	{
 		t1.join();
 	}
-	
-	std::cout << count << std::endl;
-
-	/*auto start = std::chrono::steady_clock::now();
-	do_something();
-	auto end = std::chrono::steady_clock::now();
-	std::chrono::duration<double> elapsed_seconds = end - start;
-	std::cout << "elapsed time: " << elapsed_seconds.count() << "s\n";*/
+	if (t2.joinable())
+	{
+		t2.join();
+	}
+	std::cout << "The end" << std::endl;
 	return 0;
 }
