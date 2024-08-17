@@ -13,12 +13,12 @@ void summ_vectors(const std::vector<int>& v1, const std::vector<int>& v2, std::v
 	}
 }
 
-double thread_1(const std::vector<int>& v1000, long size)
+double thread_1(const std::vector<int>& v, long size)
 {
 	std::vector<int> result(size);
 
 	auto start = std::chrono::steady_clock::now();
-	std::thread t1(summ_vectors, v1000, v1000, std::ref(result), 0, size);
+	std::thread t1(summ_vectors, v, v, std::ref(result), 0, size);
 	if (t1.joinable())
 	{
 		t1.join();
@@ -31,14 +31,14 @@ double thread_1(const std::vector<int>& v1000, long size)
 	return d_time;
 }
 
-double threads_2(const std::vector<int>& v1000, long size)
+double threads_2(const std::vector<int>& v, long size)
 {
 	std::vector<int> result(size);
 
 	auto start = std::chrono::steady_clock::now();
 	long half = size / 2;
-	std::thread t1(summ_vectors, v1000, v1000, std::ref(result), 0, half);
-	std::thread t2(summ_vectors, v1000, v1000, std::ref(result), half, size);
+	std::thread t1(summ_vectors, v, v, std::ref(result), 0, half);
+	std::thread t2(summ_vectors, v, v, std::ref(result), half, size);
 	if (t1.joinable())
 	{
 		t1.join();
@@ -46,6 +46,42 @@ double threads_2(const std::vector<int>& v1000, long size)
 	if (t2.joinable())
 	{
 		t2.join();
+	}
+	auto end = std::chrono::steady_clock::now();
+	std::chrono::duration<long, std::nano> time = end - start;
+
+	double d_time = static_cast<double>(time.count()) / 1000000000;
+	return d_time;
+}
+
+double threads_4(const std::vector<int>& v, long size)
+{
+	std::vector<int> result(size);
+
+	auto start = std::chrono::steady_clock::now();
+	long half = size / 2;
+	long quarter = size / 4;
+	long half_and_quarter = half + quarter;
+
+	std::thread t1(summ_vectors, v, v, std::ref(result), 0, quarter);
+	std::thread t2(summ_vectors, v, v, std::ref(result), quarter, half);
+	std::thread t3(summ_vectors, v, v, std::ref(result), half, half_and_quarter);
+	std::thread t4(summ_vectors, v, v, std::ref(result), half_and_quarter, size);
+	if (t1.joinable())
+	{
+		t1.join();
+	}
+	if (t2.joinable())
+	{
+		t2.join();
+	}
+	if (t3.joinable())
+	{
+		t3.join();
+	}
+	if (t4.joinable())
+	{
+		t4.join();
 	}
 	auto end = std::chrono::steady_clock::now();
 	std::chrono::duration<long, std::nano> time = end - start;
@@ -90,17 +126,15 @@ int main(int argc, char** argv)
 	std::cout << "2 threads " << result_time1000_2 << "s" << "\t" << result_time10000_2 << "s" << "\t" << result_time100000_2 << "s" << "\t" << result_time1000000_2 << "s" << std::endl;
 	
 	//quantity of threads = 4
-	/*double result_time1000_4 = threads_4(v1000, size1000);
+	double result_time1000_4 = threads_4(v1000, size1000);
 	double result_time10000_4 = threads_4(v10000, size10000);
 	double result_time100000_4 = threads_4(v100000, size100000);
 	double result_time1000000_4 = threads_4(v1000000, size1000000);
 	std::cout << "4 threads " << result_time1000_4 << "s" << "\t" << result_time10000_4 << "s" << "\t" << result_time100000_4 << "s" << "\t" << result_time1000000_4 << "s" << std::endl;
-	*/
+	
 	//quantity of threads = 8
 
 	//quantity of threads = 16
-
-	//std::thread t2(operator_worker, std::ref(count));
 	
 
 	std::cout << "The end" << std::endl;
