@@ -175,6 +175,169 @@ double threads_8(const std::vector<int>& v, long size)
 	return d_time;
 }
 
+double threads_16(const std::vector<int>& v, long size)
+{
+	std::vector<int> result(size);
+
+	auto start = std::chrono::steady_clock::now();
+
+	long first_half = size / 2;
+	long second_half = size - first_half;
+
+	long first_quarter_of_first_half = first_half / 2;
+
+	long first_eighth_of_first_quarter_of_first_half = first_quarter_of_first_half / 2;
+	long first_sixteenth_of_first_eighth_of_first_quarter_of_first_half = first_eighth_of_first_quarter_of_first_half / 2;
+	//long second_sixteenth_of_first_eighth_of_first_quarter_of_first_half = first_eighth_of_first_quarter_of_first_half - first_sixteenth_of_first_eighth_of_first_quarter_of_first_half;
+
+
+	long second_eighth_of_first_quarter_of_first_half = first_quarter_of_first_half - first_eighth_of_first_quarter_of_first_half;
+	long first_sixteenth_of_second_eighth_of_first_quarter_of_first_half = second_eighth_of_first_quarter_of_first_half / 2;
+	//long second_sixteenth_of_second_eighth_of_first_quarter_of_first_half = second_eighth_of_first_quarter_of_first_half - first_sixteenth_of_second_eighth_of_first_quarter_of_first_half;
+
+
+	long second_quarter_of_first_half = first_half - first_quarter_of_first_half;
+
+	long first_eighth_of_second_quarter_of_first_half = second_quarter_of_first_half / 2;
+	long first_sixteenth_of_first_eighth_of_second_quarter_of_first_half = first_eighth_of_second_quarter_of_first_half / 2;
+	//long second_sixteenth_of_first_eighth_of_second_quarter_of_first_half = first_eighth_of_second_quarter_of_first_half - first_sixteenth_of_first_eighth_of_second_quarter_of_first_half;
+
+
+	long second_eighth_of_second_quarter_of_first_half = second_quarter_of_first_half - first_eighth_of_second_quarter_of_first_half;
+	long first_sixteenth_of_second_eighth_of_second_quarter_of_first_half = second_eighth_of_second_quarter_of_first_half / 2;
+	long second_sixteenth_of_second_eighth_of_second_quarter_of_first_half = second_eighth_of_second_quarter_of_first_half - first_sixteenth_of_second_eighth_of_second_quarter_of_first_half;
+
+
+	long first_quarter_of_second_half = second_half / 2;
+
+	long first_eighth_of_first_quarter_of_second_half = first_quarter_of_second_half / 2;
+	long first_sixteenth_of_first_eighth_of_first_quarter_of_second_half = first_eighth_of_first_quarter_of_second_half / 2;
+	long second_sixteenth_of_first_eighth_of_first_quarter_of_second_half = first_eighth_of_first_quarter_of_second_half - first_sixteenth_of_first_eighth_of_first_quarter_of_second_half;
+
+
+	long second_eighth_of_first_quarter_of_second_half = first_quarter_of_second_half - first_eighth_of_first_quarter_of_second_half;
+	long first_sexteenth_of_second_eighth_of_first_quarter_of_second_half = second_eighth_of_first_quarter_of_second_half / 2;
+	//long second_sexteenth_of_second_eighth_of_first_quarter_of_second_half = second_eighth_of_first_quarter_of_second_half - first_sexteenth_of_second_eighth_of_first_quarter_of_second_half;
+
+
+	long second_quarter_of_second_half = second_half - first_quarter_of_second_half;
+
+	long first_eighth_of_second_quarter_of_second_half = second_quarter_of_second_half / 2;
+	long first_sexteenth_of_first_eighth_of_second_quarter_of_second_half = first_eighth_of_second_quarter_of_second_half / 2;
+	//long second_sexteenth_of_first_eighth_of_second_quarter_of_second_half = first_eighth_of_second_quarter_of_second_half - first_sexteenth_of_first_eighth_of_second_quarter_of_second_half;
+
+	long second_eighth_of_second_quarter_of_second_half = second_quarter_of_second_half - first_eighth_of_second_quarter_of_second_half;
+	long first_sexteenth_of_second_eighth_of_second_quarter_of_second_half = second_eighth_of_second_quarter_of_second_half / 2;
+	//long second_sexteenth_of_second_eighth_of_second_quarter_of_second_half = second_eighth_of_second_quarter_of_second_half - first_sexteenth_of_second_eighth_of_second_quarter_of_second_half;
+
+
+	long end_of_part1 = first_sixteenth_of_first_eighth_of_first_quarter_of_first_half;
+	long end_of_part2 = first_eighth_of_first_quarter_of_first_half;
+	long end_of_part3 = first_eighth_of_first_quarter_of_first_half + first_sixteenth_of_second_eighth_of_first_quarter_of_first_half;
+	long end_of_part4 = first_quarter_of_first_half;
+
+	long end_of_part5 = first_quarter_of_first_half + first_sixteenth_of_first_eighth_of_second_quarter_of_first_half;
+	long end_of_part6 = first_quarter_of_first_half + first_eighth_of_second_quarter_of_first_half;
+	long end_of_part7 = first_quarter_of_first_half + first_eighth_of_second_quarter_of_first_half + first_sixteenth_of_second_eighth_of_second_quarter_of_first_half;
+	long end_of_part8 = first_half;
+
+	long end_of_part9 = first_half + first_sixteenth_of_first_eighth_of_first_quarter_of_second_half;
+	long end_of_part10 = first_half + first_eighth_of_first_quarter_of_second_half;
+	long end_of_part11 = first_half + first_eighth_of_first_quarter_of_second_half + first_sexteenth_of_second_eighth_of_first_quarter_of_second_half;
+	long end_of_part12 = first_half + first_quarter_of_second_half;
+
+	long end_of_part13 = first_half + first_quarter_of_second_half + first_sexteenth_of_first_eighth_of_second_quarter_of_second_half;
+	long end_of_part14 = first_half + first_quarter_of_second_half + first_eighth_of_second_quarter_of_second_half;
+	long end_of_part15 = first_half + first_quarter_of_second_half + first_eighth_of_second_quarter_of_second_half + first_sexteenth_of_second_eighth_of_second_quarter_of_second_half;
+	long end_of_part16 = size;
+
+	std::thread t1(summ_vectors, v, v, std::ref(result), 0, end_of_part1);
+	std::thread t2(summ_vectors, v, v, std::ref(result), end_of_part1, end_of_part2);
+	std::thread t3(summ_vectors, v, v, std::ref(result), end_of_part2, end_of_part3);
+	std::thread t4(summ_vectors, v, v, std::ref(result), end_of_part3, end_of_part4);
+	std::thread t5(summ_vectors, v, v, std::ref(result), end_of_part4, end_of_part5);
+	std::thread t6(summ_vectors, v, v, std::ref(result), end_of_part5, end_of_part6);
+	std::thread t7(summ_vectors, v, v, std::ref(result), end_of_part6, end_of_part7);
+	std::thread t8(summ_vectors, v, v, std::ref(result), end_of_part7, end_of_part8);
+	std::thread t9(summ_vectors, v, v, std::ref(result), end_of_part8, end_of_part9);
+	std::thread t10(summ_vectors, v, v, std::ref(result), end_of_part9, end_of_part10);
+	std::thread t11(summ_vectors, v, v, std::ref(result), end_of_part10, end_of_part11);
+	std::thread t12(summ_vectors, v, v, std::ref(result), end_of_part11, end_of_part12);
+	std::thread t13(summ_vectors, v, v, std::ref(result), end_of_part12, end_of_part13);
+	std::thread t14(summ_vectors, v, v, std::ref(result), end_of_part14, end_of_part15);
+	std::thread t15(summ_vectors, v, v, std::ref(result), end_of_part15, end_of_part16);
+	std::thread t16(summ_vectors, v, v, std::ref(result), end_of_part16, size);
+	if (t1.joinable())
+	{
+		t1.join();
+	}
+	if (t2.joinable())
+	{
+		t2.join();
+	}
+	if (t3.joinable())
+	{
+		t3.join();
+	}
+	if (t4.joinable())
+	{
+		t4.join();
+	}
+	if (t5.joinable())
+	{
+		t5.join();
+	}
+	if (t6.joinable())
+	{
+		t6.join();
+	}
+	if (t7.joinable())
+	{
+		t7.join();
+	}
+	if (t8.joinable())
+	{
+		t8.join();
+	}
+	if (t9.joinable())
+	{
+		t9.join();
+	}
+	if (t10.joinable())
+	{
+		t10.join();
+	}
+	if (t11.joinable())
+	{
+		t11.join();
+	}
+	if (t12.joinable())
+	{
+		t12.join();
+	}
+	if (t13.joinable())
+	{
+		t13.join();
+	}
+	if (t14.joinable())
+	{
+		t14.join();
+	}
+	if (t15.joinable())
+	{
+		t15.join();
+	}
+	if (t16.joinable())
+	{
+		t16.join();
+	}
+	auto end = std::chrono::steady_clock::now();
+	std::chrono::duration<long, std::nano> time = end - start;
+
+	double d_time = static_cast<double>(time.count()) / 1000000000;
+	return d_time;
+}
+
 
 int main(int argc, char** argv)
 {
@@ -225,13 +388,11 @@ int main(int argc, char** argv)
 	std::cout << "8 threads " << result_time1000_8 << "s" << "\t" << result_time10000_8 << "s" << "\t" << result_time100000_8 << "s" << "\t" << result_time1000000_8 << "s" << std::endl;
 
 	//quantity of threads = 16
-	/*double result_time1000_16 = threads_16(v1000, size1000);
+	double result_time1000_16 = threads_16(v1000, size1000);
 	double result_time10000_16 = threads_16(v10000, size10000);
 	double result_time100000_16 = threads_16(v100000, size100000);
 	double result_time1000000_16 = threads_16(v1000000, size1000000);
 	std::cout << "16 threads " << result_time1000_16 << "s" << "\t" << result_time10000_16 << "s" << "\t" << result_time100000_16 << "s" << "\t" << result_time1000000_16 << "s" << std::endl;
-	*/
-
-	std::cout << "The end" << std::endl;
+	
 	return 0;
 }
